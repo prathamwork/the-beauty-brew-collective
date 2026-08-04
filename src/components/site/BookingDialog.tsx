@@ -222,7 +222,7 @@ export function BookingDialog() {
                   key={step}
                   initial={reduced ? false : { opacity: 0, x: 16 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={reduced ? undefined : { opacity: 0, x: -16 }}
+                  exit={reduced ? { opacity: 1 } : { opacity: 0, x: -16 }}
                   transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
                 >
                   {step === 0 && (
@@ -534,8 +534,8 @@ function Labeled({
 }: {
   label: string;
   htmlFor: string;
-  error?: string;
-  className?: string;
+  error?: string | undefined;
+  className?: string | undefined;
   children: React.ReactNode;
 }) {
   return (
