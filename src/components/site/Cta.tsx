@@ -82,7 +82,7 @@ export function CtaLink({
   magnetic = true,
 }: Common & { to: string; hash?: string; magnetic?: boolean }) {
   const link = (
-    <Link to={to} hash={hash} className={cn(ctaVariants({ variant, size }), className)}>
+    <Link to={to} {...(hash ? { hash } : {})} className={cn(ctaVariants({ variant, size }), className)}>
       {children}
     </Link>
   );
