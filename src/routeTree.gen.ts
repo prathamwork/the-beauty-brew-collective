@@ -11,8 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CafeRouteImport } from './routes/cafe'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ExperiencesRouteImport } from './routes/experiences'
+import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as SalonRouteImport } from './routes/salon'
+import { Route as StoryRouteImport } from './routes/story'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -24,9 +27,19 @@ const CafeRoute = CafeRouteImport.update({
   path: '/cafe',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ExperiencesRoute = ExperiencesRouteImport.update({
   id: '/experiences',
   path: '/experiences',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SalonRoute = SalonRouteImport.update({
@@ -34,39 +47,78 @@ const SalonRoute = SalonRouteImport.update({
   path: '/salon',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StoryRoute = StoryRouteImport.update({
+  id: '/story',
+  path: '/story',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cafe': typeof CafeRoute
+  '/contact': typeof ContactRoute
   '/experiences': typeof ExperiencesRoute
+  '/gallery': typeof GalleryRoute
   '/salon': typeof SalonRoute
+  '/story': typeof StoryRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cafe': typeof CafeRoute
+  '/contact': typeof ContactRoute
   '/experiences': typeof ExperiencesRoute
+  '/gallery': typeof GalleryRoute
   '/salon': typeof SalonRoute
+  '/story': typeof StoryRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/cafe': typeof CafeRoute
+  '/contact': typeof ContactRoute
   '/experiences': typeof ExperiencesRoute
+  '/gallery': typeof GalleryRoute
   '/salon': typeof SalonRoute
+  '/story': typeof StoryRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/cafe' | '/experiences' | '/salon'
+  fullPaths:
+    | '/'
+    | '/cafe'
+    | '/contact'
+    | '/experiences'
+    | '/gallery'
+    | '/salon'
+    | '/story'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/cafe' | '/experiences' | '/salon'
-  id: '__root__' | '/' | '/cafe' | '/experiences' | '/salon'
+  to:
+    | '/'
+    | '/cafe'
+    | '/contact'
+    | '/experiences'
+    | '/gallery'
+    | '/salon'
+    | '/story'
+  id:
+    | '__root__'
+    | '/'
+    | '/cafe'
+    | '/contact'
+    | '/experiences'
+    | '/gallery'
+    | '/salon'
+    | '/story'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CafeRoute: typeof CafeRoute
+  ContactRoute: typeof ContactRoute
   ExperiencesRoute: typeof ExperiencesRoute
+  GalleryRoute: typeof GalleryRoute
   SalonRoute: typeof SalonRoute
+  StoryRoute: typeof StoryRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -85,11 +137,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CafeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/experiences': {
       id: '/experiences'
       path: '/experiences'
       fullPath: '/experiences'
       preLoaderRoute: typeof ExperiencesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/salon': {
@@ -99,14 +165,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SalonRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/story': {
+      id: '/story'
+      path: '/story'
+      fullPath: '/story'
+      preLoaderRoute: typeof StoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CafeRoute: CafeRoute,
+  ContactRoute: ContactRoute,
   ExperiencesRoute: ExperiencesRoute,
+  GalleryRoute: GalleryRoute,
   SalonRoute: SalonRoute,
+  StoryRoute: StoryRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
