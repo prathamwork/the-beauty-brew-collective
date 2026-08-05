@@ -53,7 +53,7 @@ export function RevealText({
             className="inline-block"
             initial={{ y: "110%" }}
             whileInView={{ y: 0 }}
-            viewport={{ once: true, amount: 0.4 }}
+            viewport={{ once: true, amount: 0 }}
             transition={{ duration: 0.9, delay: delay + i * 0.045, ease: [0.16, 1, 0.3, 1] }}
           >
             {word}
