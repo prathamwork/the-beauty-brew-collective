@@ -260,7 +260,16 @@ export function BookingDialog() {
                             : "Choose one or more services"
                       }
                     >
+                      <p className="-mt-3 mb-5 text-xs text-muted-foreground">
+                        {track === "cafe"
+                          ? "Select the seating you prefer."
+                          : "Select as many as you like — tap again to remove."}
+                        {selectionIds.length > 0 && (
+                          <span className="ml-2 text-espresso">{selectionIds.length} selected</span>
+                        )}
+                      </p>
                       <div className="grid max-h-[340px] gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
+
                         {options.map((o) => (
                           <Choice
                             key={o.id}
