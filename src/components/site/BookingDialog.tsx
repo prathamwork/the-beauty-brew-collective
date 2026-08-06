@@ -145,8 +145,11 @@ export function BookingDialog() {
     try {
       const record = await saveRequest("booking", summary);
       setConfirmed(record.id);
+      if (typeof window !== "undefined") {
+        window.open(whatsappLink(bookingMessage(summary)), "_blank", "noopener,noreferrer");
+      }
       toast.success("Request received", {
-        description: "We will confirm your slot shortly. You can also send it straight to WhatsApp.",
+        description: "We have opened WhatsApp with your request — just press send to confirm.",
       });
     } catch {
       toast.error("Something went wrong", { description: "Please try again, or reach us on WhatsApp." });
@@ -170,8 +173,8 @@ export function BookingDialog() {
             </div>
             <h2 className="mt-8 text-3xl sm:text-4xl">Your request is with us.</h2>
             <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
-              Reference <span className="text-espresso">{confirmed}</span>. Our team confirms every request personally,
-              usually within a few hours of opening.
+              Reference <span className="text-espresso">{confirmed}</span>. Every enquiry is confirmed personally on
+              WhatsApp — if the chat did not open automatically, tap below to send it.
             </p>
             <dl className="mx-auto mt-10 max-w-sm space-y-2 border-t border-border pt-6 text-left text-sm">
               <Row label="Type" value={summary.track} />
