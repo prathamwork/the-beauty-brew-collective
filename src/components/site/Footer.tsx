@@ -5,6 +5,8 @@ import { site, navLinks } from "@/data/site";
 import { Container } from "@/components/site/Section";
 import { CtaAnchor } from "@/components/site/Cta";
 import { presetLink } from "@/lib/whatsapp";
+import { Logo } from "@/components/site/Logo";
+
 
 export function Footer() {
   return (
