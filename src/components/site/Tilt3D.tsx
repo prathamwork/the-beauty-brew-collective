@@ -79,7 +79,7 @@ export function Orb3D({ className, rings = 5 }: { className?: string; rings?: nu
       <motion.div
         className="relative h-full w-full"
         style={{ transformStyle: "preserve-3d" }}
-        animate={reduced ? undefined : { rotateY: 360, rotateX: [0, 12, 0] }}
+        animate={reduced ? {} : { rotateY: 360, rotateX: [0, 12, 0] }}
         transition={{
           rotateY: { duration: 34, repeat: Infinity, ease: "linear" },
           rotateX: { duration: 17, repeat: Infinity, ease: "easeInOut" },
