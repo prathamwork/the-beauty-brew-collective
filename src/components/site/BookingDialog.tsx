@@ -37,7 +37,7 @@ export function BookingDialog() {
 
   const [step, setStep] = useState(0);
   const [track, setTrack] = useState<BookingTrack>("salon");
-  const [selectionId, setSelectionId] = useState<string>("");
+  const [selectionIds, setSelectionIds] = useState<string[]>([]);
   const [specialistId, setSpecialistId] = useState<string>("none");
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [time, setTime] = useState<string>("");
@@ -58,7 +58,7 @@ export function BookingDialog() {
     setConfirmed(null);
     setErrors({});
     setTrack(prefill.track ?? "salon");
-    setSelectionId(prefill.selectionId ?? "");
+    setSelectionIds(prefill.selectionId ? [prefill.selectionId] : []);
     setSpecialistId(prefill.specialistId ?? "none");
   }, [isOpen, prefill]);
 
@@ -75,7 +75,10 @@ export function BookingDialog() {
 
   const currentIndex = steps.indexOf(step);
   const times = availableTimes(date);
-  const selectionLabel = options.find((o) => o.id === selectionId)?.label ?? "";
+  const selectionLabel = selectionIds
+    .map((id) => options.find((o) => o.id === id)?.label)
+    .filter(Boolean)
+    .join(", ");
   const specialistName =
     specialistId === "none" ? "No preference" : (bookableSpecialists.find((s) => s.id === specialistId)?.name ?? "No preference");
 
@@ -95,7 +98,7 @@ export function BookingDialog() {
   const canAdvance = (() => {
     switch (step) {
       case 1:
-        return Boolean(selectionId);
+        return selectionIds.length > 0;
       case 3:
         return Boolean(date);
       case 4:
@@ -234,7 +237,7 @@ export function BookingDialog() {
                             selected={track === t.id}
                             onClick={() => {
                               setTrack(t.id);
-                              setSelectionId("");
+                              setSelectionIds([]);
                             }}
                             title={t.label}
                             meta={t.copy}
@@ -247,15 +250,23 @@ export function BookingDialog() {
                   {step === 1 && (
                     <Field
                       legend={
-                        track === "cafe" ? "Choose your seating" : track === "experience" ? "Choose an experience" : "Choose a service"
+                        track === "cafe"
+                          ? "Choose your seating"
+                          : track === "experience"
+                            ? "Choose one or more experiences"
+                            : "Choose one or more services"
                       }
                     >
                       <div className="grid max-h-[340px] gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
                         {options.map((o) => (
                           <Choice
                             key={o.id}
-                            selected={selectionId === o.id}
-                            onClick={() => setSelectionId(o.id)}
+                            selected={selectionIds.includes(o.id)}
+                            onClick={() =>
+                              setSelectionIds((prev) =>
+                                prev.includes(o.id) ? prev.filter((x) => x !== o.id) : [...prev, o.id],
+                              )
+                            }
                             title={o.label}
                             meta={o.meta}
                           />
