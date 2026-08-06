@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 import { site, navLinks, announcements } from "@/data/site";
 import { CtaButton } from "@/components/site/Cta";
 import { useBooking } from "@/components/site/BookingProvider";
+import { Logo } from "@/components/site/Logo";
+
 
 function AnnouncementBar() {
   const [i, setI] = useState(0);
