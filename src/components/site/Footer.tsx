@@ -5,13 +5,17 @@ import { site, navLinks } from "@/data/site";
 import { Container } from "@/components/site/Section";
 import { CtaAnchor } from "@/components/site/Cta";
 import { presetLink } from "@/lib/whatsapp";
+import { Logo } from "@/components/site/Logo";
+
 
 export function Footer() {
   return (
     <footer className="bg-espresso-deep text-ivory/70">
       <Container className="grid gap-14 py-20 md:grid-cols-2 lg:grid-cols-4 lg:py-24">
         <div>
+          <Logo tone="light" showWordmark={false} className="mb-5" />
           <p className="font-display text-3xl text-ivory">{site.name}</p>
+
           <p className="mt-3 text-[0.7rem] uppercase tracking-[0.24em] text-champagne">
             {site.tagline}
           </p>

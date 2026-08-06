@@ -13,6 +13,7 @@ import { Container, Section, SectionHeading } from "@/components/site/Section";
 import { Reveal, RevealText } from "@/components/site/Reveal";
 import { CtaButton, CtaLink } from "@/components/site/Cta";
 import { useBooking } from "@/components/site/BookingProvider";
+import { Orb3D, Tilt3D } from "@/components/site/Tilt3D";
 import { site } from "@/data/site";
 import { serviceCategories } from "@/data/services";
 import { featuredMenu } from "@/data/menu";
@@ -56,6 +57,7 @@ function Hero() {
         className="absolute inset-0 h-[115%] w-full object-cover opacity-70"
       />
       <div className="absolute inset-0 bg-gradient-to-r from-espresso-deep/90 via-espresso-deep/55 to-transparent" />
+      <Orb3D className="absolute -right-16 top-1/2 hidden h-[26rem] w-[26rem] -translate-y-1/2 opacity-70 lg:block" />
       <Container className="relative flex min-h-[92vh] flex-col justify-center py-28">
         <Reveal>
           <p className="eyebrow text-champagne">Navsari · Salon &amp; Speciality Café</p>

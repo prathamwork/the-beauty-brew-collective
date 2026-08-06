@@ -37,7 +37,7 @@ export function BookingDialog() {
 
   const [step, setStep] = useState(0);
   const [track, setTrack] = useState<BookingTrack>("salon");
-  const [selectionId, setSelectionId] = useState<string>("");
+  const [selectionIds, setSelectionIds] = useState<string[]>([]);
   const [specialistId, setSpecialistId] = useState<string>("none");
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [time, setTime] = useState<string>("");
@@ -58,7 +58,7 @@ export function BookingDialog() {
     setConfirmed(null);
     setErrors({});
     setTrack(prefill.track ?? "salon");
-    setSelectionId(prefill.selectionId ?? "");
+    setSelectionIds(prefill.selectionId ? [prefill.selectionId] : []);
     setSpecialistId(prefill.specialistId ?? "none");
   }, [isOpen, prefill]);
 
@@ -75,7 +75,10 @@ export function BookingDialog() {
 
   const currentIndex = steps.indexOf(step);
   const times = availableTimes(date);
-  const selectionLabel = options.find((o) => o.id === selectionId)?.label ?? "";
+  const selectionLabel = selectionIds
+    .map((id) => options.find((o) => o.id === id)?.label)
+    .filter(Boolean)
+    .join(", ");
   const specialistName =
     specialistId === "none" ? "No preference" : (bookableSpecialists.find((s) => s.id === specialistId)?.name ?? "No preference");
 
@@ -95,7 +98,7 @@ export function BookingDialog() {
   const canAdvance = (() => {
     switch (step) {
       case 1:
-        return Boolean(selectionId);
+        return selectionIds.length > 0;
       case 3:
         return Boolean(date);
       case 4:
@@ -142,8 +145,11 @@ export function BookingDialog() {
     try {
       const record = await saveRequest("booking", summary);
       setConfirmed(record.id);
+      if (typeof window !== "undefined") {
+        window.open(whatsappLink(bookingMessage(summary)), "_blank", "noopener,noreferrer");
+      }
       toast.success("Request received", {
-        description: "We will confirm your slot shortly. You can also send it straight to WhatsApp.",
+        description: "We have opened WhatsApp with your request — just press send to confirm.",
       });
     } catch {
       toast.error("Something went wrong", { description: "Please try again, or reach us on WhatsApp." });
@@ -167,8 +173,8 @@ export function BookingDialog() {
             </div>
             <h2 className="mt-8 text-3xl sm:text-4xl">Your request is with us.</h2>
             <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted-foreground">
-              Reference <span className="text-espresso">{confirmed}</span>. Our team confirms every request personally,
-              usually within a few hours of opening.
+              Reference <span className="text-espresso">{confirmed}</span>. Every enquiry is confirmed personally on
+              WhatsApp — if the chat did not open automatically, tap below to send it.
             </p>
             <dl className="mx-auto mt-10 max-w-sm space-y-2 border-t border-border pt-6 text-left text-sm">
               <Row label="Type" value={summary.track} />
@@ -234,7 +240,7 @@ export function BookingDialog() {
                             selected={track === t.id}
                             onClick={() => {
                               setTrack(t.id);
-                              setSelectionId("");
+                              setSelectionIds([]);
                             }}
                             title={t.label}
                             meta={t.copy}
@@ -247,15 +253,32 @@ export function BookingDialog() {
                   {step === 1 && (
                     <Field
                       legend={
-                        track === "cafe" ? "Choose your seating" : track === "experience" ? "Choose an experience" : "Choose a service"
+                        track === "cafe"
+                          ? "Choose your seating"
+                          : track === "experience"
+                            ? "Choose one or more experiences"
+                            : "Choose one or more services"
                       }
                     >
+                      <p className="-mt-3 mb-5 text-xs text-muted-foreground">
+                        {track === "cafe"
+                          ? "Select the seating you prefer."
+                          : "Select as many as you like — tap again to remove."}
+                        {selectionIds.length > 0 && (
+                          <span className="ml-2 text-espresso">{selectionIds.length} selected</span>
+                        )}
+                      </p>
                       <div className="grid max-h-[340px] gap-2 overflow-y-auto pr-1 sm:grid-cols-2">
+
                         {options.map((o) => (
                           <Choice
                             key={o.id}
-                            selected={selectionId === o.id}
-                            onClick={() => setSelectionId(o.id)}
+                            selected={selectionIds.includes(o.id)}
+                            onClick={() =>
+                              setSelectionIds((prev) =>
+                                prev.includes(o.id) ? prev.filter((x) => x !== o.id) : [...prev, o.id],
+                              )
+                            }
                             title={o.label}
                             meta={o.meta}
                           />

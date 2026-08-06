@@ -7,6 +7,7 @@ import { Container, Section, SectionHeading } from "@/components/site/Section";
 import { Reveal, RevealText } from "@/components/site/Reveal";
 import { CtaButton } from "@/components/site/Cta";
 import { useBooking } from "@/components/site/BookingProvider";
+import { Tilt3D } from "@/components/site/Tilt3D";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { serviceCategories, services, salonFaqs } from "@/data/services";
 import { team } from "@/data/team";
@@ -67,6 +68,7 @@ function SalonPage() {
           <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {serviceCategories.map((s, i) => (
               <Reveal key={s.id} delay={(i % 4) * 0.07} className="group">
+                <Tilt3D>
                 <button onClick={() => setCategory(s.id)} className="block w-full text-left">
                   <div className="overflow-hidden">
                     <img
@@ -81,6 +83,7 @@ function SalonPage() {
                     From {s.from} · {s.duration} · {s.audience}
                   </p>
                 </button>
+                </Tilt3D>
               </Reveal>
             ))}
           </div>

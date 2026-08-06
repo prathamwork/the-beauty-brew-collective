@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 import { site, navLinks, announcements } from "@/data/site";
 import { CtaButton } from "@/components/site/Cta";
 import { useBooking } from "@/components/site/BookingProvider";
+import { Logo } from "@/components/site/Logo";
+
 
 function AnnouncementBar() {
   const [i, setI] = useState(0);
@@ -63,14 +65,10 @@ export function Header() {
         )}
       >
         <div className="mx-auto flex h-[70px] max-w-[1400px] items-center justify-between px-5 sm:px-8 lg:px-12">
-          <Link to="/" className="flex items-baseline gap-3">
-            <span className="font-display text-2xl leading-none tracking-tight text-espresso">
-              {site.shortName}
-            </span>
-            <span className="hidden text-[0.6rem] uppercase tracking-[0.28em] text-mocha sm:block">
-              Salon &amp; Café
-            </span>
+          <Link to="/" className="flex items-center">
+            <Logo />
           </Link>
+
 
           <nav className="hidden items-center gap-8 lg:flex">
             {navLinks.map((l) => (
